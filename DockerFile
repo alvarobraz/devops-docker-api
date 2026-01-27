@@ -1,22 +1,45 @@
-FROM node:20
+# Usa a imagem oficial do Node.js versão 20 para a etapa de build
+# Essa imagem é mais completa (não é alpine) e inclui ferramentas úteis para compilar dependências nativas
+FROM node:20 AS build
 
 # Define o diretório de trabalho dentro do contêiner
+# Todos os comandos seguintes serão executados dentro desse diretório
 WORKDIR /usr/src/app
 
-# Copia apenas os arquivos de dependência (melhora cache)
+# Copia apenas os arquivos de dependências (package.json e package-lock.json)
+# Isso permite aproveitar cache do Docker quando o código muda, mas as deps não
 COPY package.json package-lock.json ./
 
-# Instala as dependências respeitando o lockfile
+# Instala as dependências exatamente conforme o package-lock.json
+# "npm ci" é mais rápido e mais seguro para ambientes de build
 RUN npm ci
 
-# Copia todos os arquivos da aplicação
+# Copia todo o restante dos arquivos do projeto para dentro do contêiner
+# Aqui entram os arquivos .ts, src, configs, etc
 COPY . .
 
-# Executa o build da aplicação
+# Executa o script de build definido no package.json
+# Normalmente compila TypeScript para JavaScript na pasta /dist
 RUN npm run build
 
-# Expõe a porta usada pela aplicação
-EXPOSE 3000
+# Inicia uma nova imagem, agora mais leve, apenas para rodar a aplicação
+# Usamos Alpine Linux para reduzir o tamanho final da imagem
+FROM node:20.20.0-alpine3.23
 
-# Comando padrão ao iniciar o contêiner
-CMD ["npm", "run", "start"]
+# Define novamente o diretório de trabalho na imagem final
+WORKDIR /usr/src/app
+
+# Copia o package.json gerado na etapa de build para a imagem final
+# Útil para manter metadados do projeto
+COPY --from=build /usr/src/app/package.json ./package.json
+
+# Copia a pasta "dist" gerada no build (código já compilado)
+COPY --from=build /usr/src/app/dist ./dist
+
+# Copia a pasta "node_modules" já instalada na etapa de build
+# Assim não precisamos reinstalar dependências na imagem final
+COPY --from=build /usr/src/app/node_modules ./node_modules
+
+# Define o comando que será executado quando o contêiner iniciar
+# Aqui estamos mandando o Node executar o arquivo principal da aplicação
+CMD ["node", "dist/index.js"]
