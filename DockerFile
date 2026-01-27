@@ -1,0 +1,22 @@
+FROM node:20
+
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /usr/src/app
+
+# Copia apenas os arquivos de dependência (melhora cache)
+COPY package.json package-lock.json ./
+
+# Instala as dependências respeitando o lockfile
+RUN npm ci
+
+# Copia todos os arquivos da aplicação
+COPY . .
+
+# Executa o build da aplicação
+RUN npm run build
+
+# Expõe a porta usada pela aplicação
+EXPOSE 3000
+
+# Comando padrão ao iniciar o contêiner
+CMD ["npm", "run", "start"]
