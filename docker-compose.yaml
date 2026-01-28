@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  mysql-devops-docker-api:
+    image: mysql:8
+    container_name: mysql-devops-docker-api
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=devops-docker-api-db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=root
+    networks:
+      - network-devops-docker-api
+
+  devops-docker-api:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: devops-docker-api
+    ports:
+      - 3001:3000
+    depends_on:
+      - mysql-devops-docker-api
+    networks:
+      - network-devops-docker-api
+
+networks:
+  network-devops-docker-api:
+
+volumes:
+  db:

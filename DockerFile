@@ -42,4 +42,4 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 
 # Define o comando que será executado quando o contêiner iniciar
 # Aqui estamos mandando o Node executar o arquivo principal da aplicação
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/main.js"]
