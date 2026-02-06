@@ -29,4 +29,4 @@ jobs:
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
       - name: Build
-        run: docker build -t devops-docker-api:${{ steps.generate_tag.outputs.sha }} ./DockerFile
+        run: docker build -t devops-docker-api:${{ steps.generate_tag.outputs.sha }} -f DockerFile .
