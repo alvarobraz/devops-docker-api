@@ -22,9 +22,6 @@ jobs:
       - run: npm install
       - run: npm run test
 
-      - name: List files (Debug)
-        run: ls -R # Isso vai listar todos os arquivos do repositório
-
       - name: Generate tag
         id: generate_tag
         run: |
@@ -32,4 +29,4 @@ jobs:
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
       - name: Build
-        run: docker build -t devops-docker-api:${{ steps.generate_tag.outputs.sha }} .DockerFile
+        run: docker build -t devops-docker-api:${{ steps.generate_tag.outputs.sha }} ./DockerFile
