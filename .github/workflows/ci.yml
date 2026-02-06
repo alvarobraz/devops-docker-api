@@ -22,6 +22,9 @@ jobs:
       - run: npm install
       - run: npm run test
 
+      - name: List files (Debug)
+        run: ls -R # Isso vai listar todos os arquivos do repositório
+
       - name: Generate tag
         id: generate_tag
         run: |
