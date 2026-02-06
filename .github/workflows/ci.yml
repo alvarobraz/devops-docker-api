@@ -34,8 +34,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build docker image
-        run: docker build -t alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }} -f DockerFile .
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }} -f DockerFile .,alvarobraz/devops-docker-api:latest
 
-      - name: Push image
-        run: docker push alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }}
+      # - name: Build docker image
+      #   run: docker build -t alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }} -f DockerFile .
+
+      # - name: Push image
+      #   run: docker push alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }}
