@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }} -f DockerFile .,alvarobraz/devops-docker-api:latest
+          tags: alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }},alvarobraz/devops-docker-api:latest
 
       # - name: Build docker image
       #   run: docker build -t alvarobraz/devops-docker-api:${{ steps.generate_tag.outputs.sha }} -f DockerFile .
