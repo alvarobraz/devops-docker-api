@@ -54,6 +54,7 @@ jobs:
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
 
       - name: Deploy to app runner
+        id: deploy-app-runner
         uses: awslabs/amazon-app-runner-deploy@main
         with:
           service: devops-docker-api
@@ -63,3 +64,7 @@ jobs:
           cpu: 1
           memory: 2
           port: 3000
+          wait-for-service-stability-seconds: 180
+
+      - name: App Runner check
+        run: echo "App Runner running... ${{ steps.deploy-app-runner.outputs.service-url }}"
