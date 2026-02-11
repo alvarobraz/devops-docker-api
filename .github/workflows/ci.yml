@@ -75,5 +75,3 @@ jobs:
 
       - name: App Runner check
         run: echo "App Runner running... ${{ steps.deploy-app-runner.outputs.service-url }}"
-
-      # test
