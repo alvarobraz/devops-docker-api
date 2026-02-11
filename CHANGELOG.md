@@ -1,3 +1,17 @@
+# [1.1.0](https://github.com/alvarobraz/devops-docker-api/compare/v1.0.0...v1.1.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* permissions ([0692ab8](https://github.com/alvarobraz/devops-docker-api/commit/0692ab8554fa5b77a9ff9c6ec4f04f4387448945))
+
+
+### Features
+
+* new pull request ([0143294](https://github.com/alvarobraz/devops-docker-api/commit/014329474c3cea4870d9279e88448f9b5e59a854))
+* run-pipeline ([364d521](https://github.com/alvarobraz/devops-docker-api/commit/364d521db428dc55cc9f89e116b1a507451cd703))
+* run-pipeline ([f45faee](https://github.com/alvarobraz/devops-docker-api/commit/f45faee3fc8063837a5b525c1cfc5881b0f34ee2))
+
 # 1.0.0 (2026-02-11)
 
 
